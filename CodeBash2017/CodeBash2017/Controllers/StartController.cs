@@ -1,35 +1,4 @@
-﻿/*
-
-    WELCOME TO...
-     ___________ _____   _____ ___________ _____  ______  ___   _____ _   _   _____  _____  __   ______
-    |  ___| ___ \_   _| /  __ \  _  |  _  \  ___| | ___ \/ _ \ /  ___| | | | / __  \|  _  |/  | |___  /
-    | |__ | |_/ / | |   | /  \/ | | | | | | |__   | |_/ / /_\ \\ `--.| |_| | `' / /'| |/' |`| |    / /
-    |  __||  __/  | |   | |   | | | | | | |  __|  | ___ \  _  | `--. \  _  |   / /  |  /| | | |   / /
-    | |___| |    _| |_  | \__/\ \_/ / |/ /| |___  | |_/ / | | |/\__/ / | | | ./ /___\ |_/ /_| |_./ /
-    \____/\_|    \___/   \____/\___/|___/ \____/  \____/\_| |_/\____/\_| |_/ \_____/ \___/ \___/\_/
-
-    Kolmården is celebrating 52 years and wants a new and fun landing page.
-    
-
-    FILE INFO:
-    This file has the controller and view model for the landing page.
-    
-    WHAT THIS FILE DOES:
-    To help you get started it gets all animal photos and picks one on random.
-    
-    WHAT YOU SHOULD DO:
-    1) Read through this controller and view model
-    2) You probably want to select animals based on the metadata available on its properties instead. Be creative!
-    3) Take a look at view Index.cshtml
-
-    OTHER FILES:
-    The view is in Views/Start/Index.cshtml
-
- */
-
-
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Mvc;
 using CodeBash2017.Business.Internal;
@@ -60,9 +29,15 @@ namespace CodeBash2017.Controllers
 			var startPageViewModel = new StartPageViewModel
 			{
 				Image = allAnimalImages[randomAnimalIndex],
-				TagImages = Load(level)
+				TagImages = Load(level),
+				TopList = GenerateTopList().ToList()
 			};
 			return View(startPageViewModel);
+		}
+
+		public ActionResult Index(StartPage page)
+		{
+			return RedirectToAction("Index");
 		}
 
 		public IList<TagImageViewModel> Load(int level)
@@ -113,24 +88,24 @@ namespace CodeBash2017.Controllers
 			var writePage = (StartPage)page.CreateWritableClone();
 			writePage.TopList = string.Join("§", topList);
 			_contentRepository.Service.Save(writePage, EPiServer.DataAccess.SaveAction.Publish);
-			return GenerateTopList();
+			return RedirectToAction("Index");
 		}
 
-		public ActionResult TopList()
-		{
-			return GenerateTopList();
-		}
+		//public ActionResult TopList()
+		//{
+		//	//return GenerateTopList();
+		//}
 
-		private JsonResult GenerateTopList()
+		private IEnumerable<ScoreModel> GenerateTopList()
 		{
 			var page = _contentRepository.Service.Get<StartPage>(ContentReference.StartPage);
-			var topList = page.TopList.Split(new char[] { '§' }, StringSplitOptions.RemoveEmptyEntries).ToList()
+			var topList = page.TopList?.Split(new char[] { '§' }, StringSplitOptions.RemoveEmptyEntries).ToList()
 				.Select(item => new ScoreModel
 				{
 					Email = item.Split('|')[0],
 					Score = int.Parse(item.Split('|')[1])
-				});
-			return Json(topList, JsonRequestBehavior.AllowGet);
+				}) ?? new List<ScoreModel>();
+			return topList;
 		}
 
 		private IList<AnimalImage> Images

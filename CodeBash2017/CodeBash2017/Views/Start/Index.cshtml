@@ -124,12 +124,11 @@
 
 
     <div class="Tags">
-        <span class="Tag Tag--selected">Animal 1</span>
-        <span class="Tag">Animal 1</span>
-        <span class="Tag">Animal 1</span>
-        <span class="Tag">Animal 1</span>
+			@foreach (var tag in Model.TagImages.OrderBy(item=>DateTime.Now.Ticks))
+			{
+				<span class="Tag">@tag.Tag.Name</span>
+			}
     </div>
-
     <h2>Hjälp oss hitta "Animal"?</h2>
 </div>
 
@@ -138,10 +137,11 @@
 
 
 <ul class="List">
-    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
-    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
-    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
-    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
+
+	@foreach (var image in Model.TagImages.OrderBy(item => DateTime.Now.Ticks - 1343))
+	{
+		<li class="List-item"><a href="#" class="Option js-option" data-option=""><img src="@image.Url" /></a></li>
+	}
 </ul>
 
 <button class="Button">Ge mig fler!</button>
