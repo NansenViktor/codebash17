@@ -65,6 +65,11 @@ namespace CodeBash2017.Controllers
 
             return View(startPageViewModel);
         }
+
+        public ActionResult Dummy()
+        {
+            return View();
+        }
     }
 
     public class StartPageViewModel
