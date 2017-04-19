@@ -90,6 +90,8 @@
     .List-item img {
         max-width: 100%;
         border-radius: 30px;
+				object-fit: cover;
+				height: 200px;	
     }
     .List-item a:hover {
         outline: 2px solid green;
@@ -128,229 +130,40 @@
     <h2>Vinn en entrébiljett för hela familjen!</h2>
     <p>Kolmården fyller 52 år och det firar vi med en tävling där ni kan vinna ett besök för hela familjen. Allt ni behöver göra är att få högst poäng i våran tävling.</p>
 
-
-    <div class="Tags">
+    @*<div class="Tags">
 			@foreach (var tag in Model.TagImages.OrderBy(item=>DateTime.Now.Ticks))
 			{
 				<span class="Tag">@tag.Tag.Name</span>
 			}
-    </div>
-    <h2>Hjälp oss hitta "Animal"?</h2>
-</div>
-
-
-
-
-
-<ul class="List">
-
-	@foreach (var image in Model.TagImages.OrderBy(item => DateTime.Now.Ticks - 1343))
-	{
-		<li class="List-item"><a href="#" class="Option js-option" data-option=""><img src="@image.Url" /></a></li>
+    </div>*@
+	@{ 
+		var correctImage = Model.TagImages.ElementAt(Model.Seed);
 	}
-</ul>
-
-<button class="Button">Ge mig fler!</button>
-<button class="Button Button--secondary">Jag nöjer mig där</button>
-
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<div>
-
-    <h2>@Model.Image.Name</h2>    
-
-    @if (Model.Image.ErrorCode != null)
-    {
-        <pre>
-            <!-- In case there's an error -->
-            <strong>@Model.Image.ErrorCode: @Model.Image.ErrorMessage</strong>
-        </pre>
-    }
-
-    <img src="@Model.Image.PublicUrl()" alt="@string.Join(", ", Model.Image.DescriptionTags ?? new string[] {})" style="float: left; margin-right: 15px; width: 500px;"/>
-    
-    <table>
-        <caption>Features:</caption>
-        <thead>
-            <tr>
-                <th>Feature Name</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Description captions</td>
-                <td>
-                    @foreach (var caption in Model.Image.DescriptionCaptions ?? Enumerable.Empty<Caption>())
-                    {
-                        <p>@caption.Text (confidence @caption.Confidence)</p>
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Description tags</td>
-                <td>@string.Join(", ", Model.Image.DescriptionTags ?? new string[] {})</td>
-            </tr>
-
-            <tr>
-                <td>Tags (Name / Confidence)</td>
-                <td>
-                    @foreach (var tag in Model.Image.Tags ?? Enumerable.Empty<Tag>())
-                    {
-                        <span>@tag.Name (@tag.Confidence)</span>
-                        <br/>
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Image Format </td>
-                <td>@Model.Image.Format</td>
-            </tr>
-
-            <tr>
-                <td>Image Dimensions </td>
-                <td>@Model.Image.Width x @Model.Image.Height</td>
-            </tr>
-
-            <tr>
-                <td>Clip Art Type</td>
-                <td>
-                    <span>@Model.Image.ClipArtType - </span>
-                    @switch (Model.Image.ClipArtType)
-                    {
-                        case 0: <span>Non-clipart</span> break;
-                        case 1: <span>Ambiguous</span> break;
-                        case 2: <span>Normal-clipart</span> break;
-                        case 3: <span>Good-clipart</span> break;
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Line Drawing Type </td>
-                <td>
-                    <span>@Model.Image.LineDrawingType - </span>
-                    @switch (Model.Image.LineDrawingType)
-                    {
-                        case 0: <span>Non-LineDrawing</span> break;
-                        case 1: <span>LineDrawing</span> break;
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Black &amp; White Image</td>
-                <td>@Model.Image.IsBWImg</td>
-            </tr>
-
-            <tr>
-                <td>Is Adult Content </td>
-                <td>@Model.Image.IsAdultContent</td>
-            </tr>
-
-            <tr>
-                <td>Adult Score</td>
-                <td>@Model.Image.AdultScore</td>
-            </tr>
-
-            <tr>
-                <td>Is Racy Content</td>
-                <td>@Model.Image.IsRacyContent</td>
-            </tr>
-
-            <tr>
-                <td>Racy Score</td>
-                <td>@Model.Image.RacyScore</td>
-            </tr>
-
-            <tr>
-                <td>Categories (Name / Score)</td>
-                <td>
-                    @foreach (var category in Model.Image.Categories ?? new List<Category>())
-                    {
-                        <span>@category.Name (@category.Score)</span>
-                        if (category.Celebrities == null || !category.Celebrities.Any())
-                        {
-                            <em>No celebrities detected</em>
-                        }
-                        else
-                        {
-                            foreach (var celebrity in category.Celebrities)
-                            {
-                                <em>@celebrity.Name (confidence @celebrity.Confidence)</em>
-                                <strong>@celebrity.FaceRectangle.Width x @celebrity.FaceRectangle.Height, @celebrity.FaceRectangle.Top - @celebrity.FaceRectangle.Left</strong>
-                            }
-                        }
-                        <br />
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Faces</td>
-                <td>
-                    @if (Model.Image.Faces == null || !Model.Image.Faces.Any())
-                    {
-                        <em>No faces detected</em>
-                    }
-                    else
-                    {
-                        foreach (var face in Model.Image.Faces)
-                        {
-                            <span>Age: @face.Age, Gender: @face.Gender</span>
-                            <strong>@face.FaceRectangle.Width x @face.FaceRectangle.Height, @face.FaceRectangle.Top - @face.FaceRectangle.Left</strong>
-                            <br/>
-                        }
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Dominant Color Background</td>
-                <td>
-                    <div class="colorRect" style="background-color: @Model.Image.DominantColorBackground;"></div>
-                    <span>@Model.Image.DominantColorBackground</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>Dominant Color Foreground</td>
-                <td>
-                    <div class="colorRect" style="background-color: @Model.Image.DominantColorForeground;"></div>
-                    <span>@Model.Image.DominantColorForeground</span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>Dominant Colors</td>
-                <td id="dominantClr">
-                    @foreach (var color in Model.Image.DominantColors ?? new string[] {})
-                    {
-                        <div style="display: table;">
-                            <div class="colorRect" style="background-color: @color;"></div>
-                            <span>@color</span>
-                        </div>
-                    }
-                </td>
-            </tr>
-
-            <tr>
-                <td>Accent Color</td>
-                <td>
-                    <div class="colorRect" style="background-color: @Model.Image.AccentColor;"></div>
-                    <span>@Model.Image.AccentColor</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
 </div>
+
+
+
+
+@if (Request.QueryString["success"] == "True")
+{
+	<h1 style="margin-bottom: 1em;">Du är ju smart - det var rätt!</h1>
+	<a href="/" class="Button" style="text-decoration: none;">Ge mig en till</a>
+}
+else
+{
+	if (Request.QueryString["success"] == "False")
+	{
+		<p style="font-size: 1.4em; font-weight: bold; color: red;">Tyvärr, det var fel men försök med den här istället!</p>
+	}
+
+	<h2>Hjälp oss hitta "@correctImage.Tag.Name"?</h2>
+
+	<ul class="List">
+
+		@foreach (var image in Model.TagImages)
+		{
+			<li class="List-item"><a href="?success=@((correctImage==image).ToString())" class="Option js-option" data-option="" ><img src="@image.Url" /></a></li>
+		}
+	</ul>
+
+}

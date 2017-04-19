@@ -30,15 +30,12 @@ namespace CodeBash2017.Controllers
 			{
 				Image = allAnimalImages[randomAnimalIndex],
 				TagImages = Load(level),
-				TopList = GenerateTopList().ToList()
+				TopList = GenerateTopList().ToList(),
+				Seed = _random.Next(4)
 			};
 			return View(startPageViewModel);
 		}
 
-		public ActionResult Index(StartPage page)
-		{
-			return RedirectToAction("Index");
-		}
 
 		public IList<TagImageViewModel> Load(int level)
 		{
@@ -143,5 +140,6 @@ namespace CodeBash2017.Controllers
 		public AnimalImage Image { get; set; }
 		public IList<TagImageViewModel> TagImages { get; set; } 
 		public IList<ScoreModel> TopList { get; set; }
+		public int Seed { get; set; }
 	}
 }
