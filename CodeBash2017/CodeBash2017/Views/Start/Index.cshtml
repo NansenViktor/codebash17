@@ -30,7 +30,6 @@
 *@
 
 
-
 @{
     Layout = "~/Views/Shared/_Root.cshtml";
 }
@@ -38,17 +37,125 @@
 @using EPiServer.Cms.Shell
 @model CodeBash2017.Controllers.StartPageViewModel
 
+
 <style>
-    .colorRect {
-        width: 20px;
-        height: 20px;
-        display: block;
-        border: 1px solid black;
-        float: left;
-        margin-right: 5px;
+
+    body {
+        background: #f7f7f5;
+        color: #5B7319;
+        text-align: center;
+        font-family: 'Helvetica', 'Arial';
+        margin: 0;
+    }
+
+    .Header {
+        max-width: 500px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .Button {
+        color: #fff;
+        background: #5B7319;
+        border: none;
+        padding: 1em;
+        cursor: pointer;
+    }
+
+    .Button:hover {
+        background: #80a223;
+    }
+
+    .Button--secondary {
+        background: #9fac7c;
+
+    }
+
+    .LogoBar {
+        background: #fff;
+        padding: 1em;
+    }
+    .List {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .List-item {
+        width: 20%;
+        display: table-cell;
+    }
+
+    .List-item img {
+        max-width: 100%;
+    }
+
+    .Option {
+        padding: 1em;
+        display: inline-block;
+    }
+    .Tags {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin: 3em 0;
+        
+    }
+
+    .Tag {
+        border: 2px solid #80a223;
+        border-radius: 10px;
+        padding: 1em;
+    }
+
+    .Tag--selected {
+        background: #9fac7c;
+        color: black;
     }
 </style>
+<script src="jquery-1.12.4.js"></script>
 
+<div class="LogoBar">
+    <img src="logo.jpg" height="100" />
+</div>
+<div class="Header">
+    <h1>Kolmården fyller 52 år!</h1>
+    <h2>Vinn en entré biljett för hela familjen!</h2>
+    <p>Kolmården fyller 52 år och det firar vi med en tävling där ni kan vinna ett besök för hela familjen. Allt ni behöver göra är att få högst poäng i våran tävling.</p>
+
+
+    <div class="Tags">
+        <span class="Tag Tag--selected">Animal 1</span>
+        <span class="Tag">Animal 1</span>
+        <span class="Tag">Animal 1</span>
+        <span class="Tag">Animal 1</span>
+    </div>
+
+    <h2>Hjälp oss hitta "Animal"?</h2>
+</div>
+
+
+
+
+
+<ul class="List">
+    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
+    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
+    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
+    <li class="List-item"><a href="#" class="Option js-option" data-option="1"><img src="animal.jpg"/></a></li>
+</ul>
+
+<button class="Button">Ge mig fler!</button>
+<button class="Button Button--secondary">Jag nöjer mig där</button>
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <div>
 
     <h2>@Model.Image.Name</h2>    

@@ -317,6 +317,7 @@
     <Content Include="modules\_protected\EPiServer.Packaging.UI\EPiServer.Packaging.UI.zip" />
     <Content Include="Views\Shared\_Root.cshtml" />
     <Content Include="Views\Start\Index.cshtml" />
+    <Content Include="Views\Start\Dummy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
